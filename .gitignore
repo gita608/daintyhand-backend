@@ -1,18 +1,84 @@
-/node_modules
-/public/build
+# Laravel
+/vendor/
+/node_modules/
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/private/
+!/storage/app/public/
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Environment
 .env
 .env.backup
 .env.production
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+
+# Build
+/public/build
+/public/mix-manifest.json
+/public/vite-manifest.json
+/public/hot
+
+# Testing
 .phpunit.result.cache
-Homestead.json
-Homestead.yaml
-auth.json
+/coverage
+/.phpunit.cache
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# Composer
+composer.phar
+/vendor/
+
+# NPM
+/node_modules/
 npm-debug.log
 yarn-error.log
-/.fleet
-/.idea
-/.vscode
+
+# Misc
+*.cache
+*.tmp
+*.temp
+.cache/
+
