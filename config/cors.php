@@ -19,7 +19,11 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => ['http://localhost:5173', 'http://localhost:8080'],
+    'allowed_origins' => [
+        'http://localhost:5173',
+        'http://localhost:8080',
+        'https://daintyhand.softspiretechnologies.com', // Production frontend
+    ],
 
     'allowed_origins_patterns' => [],
 
