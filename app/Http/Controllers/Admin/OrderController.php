@@ -27,7 +27,17 @@ class OrderController extends Controller
         $perPage = $request->get('per_page', 15);
         $orders = $query->orderBy('created_at', 'desc')->paginate($perPage);
 
-        return $this->successResponse($orders);
+        if ($request->expectsJson()) {
+            return $this->successResponse($orders);
+        }
+
+        return view('admin.orders.index', compact('orders'));
+    }
+
+    public function show($id)
+    {
+        $order = Order::with(['user', 'items'])->findOrFail($id);
+        return view('admin.orders.show', compact('order'));
     }
 
     public function updateStatus(UpdateOrderStatusRequest $request, $id)
@@ -39,6 +49,10 @@ class OrderController extends Controller
             'payment_status' => $request->payment_status ?? $order->payment_status,
         ]);
 
-        return $this->successResponse($order->load(['user', 'items']), 'Order status updated successfully');
+        if ($request->expectsJson()) {
+            return $this->successResponse($order->load(['user', 'items']), 'Order status updated successfully');
+        }
+
+        return redirect()->route('admin.orders.show', $id)->with('success', 'Order status updated successfully');
     }
 }

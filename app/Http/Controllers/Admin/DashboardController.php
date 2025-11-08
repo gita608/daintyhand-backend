@@ -8,15 +8,11 @@ use App\Models\CustomOrder;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    use ApiResponse;
-
-    public function stats()
+    public function index()
     {
         $stats = [
             'total_products' => Product::count(),
@@ -29,6 +25,6 @@ class DashboardController extends Controller
             'recent_orders' => Order::with('user')->orderBy('created_at', 'desc')->limit(5)->get(),
         ];
 
-        return $this->successResponse($stats);
+        return view('admin.dashboard', compact('stats'));
     }
 }

@@ -16,6 +16,10 @@ class UserController extends Controller
         $perPage = $request->get('per_page', 15);
         $users = User::paginate($perPage);
 
-        return $this->successResponse($users);
+        if ($request->expectsJson()) {
+            return $this->successResponse($users);
+        }
+
+        return view('admin.users.index', compact('users'));
     }
 }

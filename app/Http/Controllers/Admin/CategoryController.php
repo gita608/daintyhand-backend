@@ -14,29 +14,55 @@ class CategoryController extends Controller
 {
     use ApiResponse;
 
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::all();
-        return $this->successResponse($categories);
+        
+        if ($request->expectsJson()) {
+            return $this->successResponse($categories);
+        }
+        
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->validated());
-        return $this->successResponse($category, 'Category created successfully', 201);
+        
+        if ($request->expectsJson()) {
+            return $this->successResponse($category, 'Category created successfully', 201);
+        }
+        
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully');
+    }
+
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(UpdateCategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->update($request->validated());
-        return $this->successResponse($category, 'Category updated successfully');
+        
+        if ($request->expectsJson()) {
+            return $this->successResponse($category, 'Category updated successfully');
+        }
+        
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return $this->successResponse(null, 'Category deleted successfully');
+        
+        if ($request->expectsJson()) {
+            return $this->successResponse(null, 'Category deleted successfully');
+        }
+        
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
     }
 }

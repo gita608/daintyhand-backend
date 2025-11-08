@@ -22,7 +22,17 @@ class CustomOrderController extends Controller
         $perPage = $request->get('per_page', 15);
         $customOrders = $query->orderBy('created_at', 'desc')->paginate($perPage);
 
-        return $this->successResponse($customOrders);
+        if ($request->expectsJson()) {
+            return $this->successResponse($customOrders);
+        }
+
+        return view('admin.custom-orders.index', compact('customOrders'));
+    }
+
+    public function show($id)
+    {
+        $customOrder = CustomOrder::findOrFail($id);
+        return view('admin.custom-orders.show', compact('customOrder'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -34,6 +44,10 @@ class CustomOrderController extends Controller
         $customOrder = CustomOrder::findOrFail($id);
         $customOrder->update(['status' => $request->status]);
 
-        return $this->successResponse($customOrder, 'Custom order status updated successfully');
+        if ($request->expectsJson()) {
+            return $this->successResponse($customOrder, 'Custom order status updated successfully');
+        }
+
+        return redirect()->route('admin.custom-orders.show', $id)->with('success', 'Custom order status updated successfully');
     }
 }

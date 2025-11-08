@@ -22,7 +22,16 @@ class ProductController extends Controller
         $products = Product::with(['images', 'features', 'specifications'])
             ->paginate($perPage);
 
-        return $this->successResponse($products);
+        if ($request->expectsJson()) {
+            return $this->successResponse($products);
+        }
+
+        return view('admin.products.index', compact('products'));
+    }
+
+    public function create()
+    {
+        return view('admin.products.create');
     }
 
     public function store(StoreProductRequest $request)
@@ -62,18 +71,35 @@ class ProductController extends Controller
             }
         }
 
-        return $this->successResponse($product->load(['images', 'features', 'specifications']), 'Product created successfully', 201);
+        if ($request->expectsJson()) {
+            return $this->successResponse($product->load(['images', 'features', 'specifications']), 'Product created successfully', 201);
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $product = Product::with(['images', 'features', 'specifications'])->find($id);
 
         if (!$product) {
-            return $this->errorResponse('Product not found', null, 404);
+            if ($request->expectsJson()) {
+                return $this->errorResponse('Product not found', null, 404);
+            }
+            abort(404);
         }
 
-        return $this->successResponse($product);
+        if ($request->expectsJson()) {
+            return $this->successResponse($product);
+        }
+
+        return view('admin.products.show', compact('product'));
+    }
+
+    public function edit($id)
+    {
+        $product = Product::with(['images', 'features', 'specifications'])->findOrFail($id);
+        return view('admin.products.edit', compact('product'));
     }
 
     public function update(UpdateProductRequest $request, $id)
@@ -81,14 +107,22 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->update($request->validated());
 
-        return $this->successResponse($product->load(['images', 'features', 'specifications']), 'Product updated successfully');
+        if ($request->expectsJson()) {
+            return $this->successResponse($product->load(['images', 'features', 'specifications']), 'Product updated successfully');
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
 
-        return $this->successResponse(null, 'Product deleted successfully');
+        if ($request->expectsJson()) {
+            return $this->successResponse(null, 'Product deleted successfully');
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully');
     }
 }
