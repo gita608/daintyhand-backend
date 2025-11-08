@@ -283,6 +283,14 @@
                     <span class="menu-item-text">Manage Users</span>
                 </a>
             </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Account</div>
+                <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                    <span class="menu-item-icon">👤</span>
+                    <span class="menu-item-text">My Profile</span>
+                </a>
+            </div>
         </div>
     </div>
     
