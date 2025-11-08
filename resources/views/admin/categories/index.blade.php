@@ -4,33 +4,12 @@
 @section('page-title', 'Categories')
 
 @include('admin.partials.buttons')
-@include('admin.partials.cards')
-@include('admin.partials.forms')
 @include('admin.partials.tables')
 
 @section('content')
-    <div class="form-card">
-        <h2 style="margin-bottom: 20px;">Add New Category</h2>
-        <form method="POST" action="{{ route('admin.categories.store') }}">
-            @csrf
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" required>
-            </div>
-            <div class="form-group">
-                <label>Slug</label>
-                <input type="text" name="slug" required>
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <input type="text" name="description">
-            </div>
-            <div class="form-group">
-                <label>Image URL</label>
-                <input type="url" name="image" placeholder="https://example.com/image.jpg">
-            </div>
-            <button type="submit" class="btn btn-primary">Create Category</button>
-        </form>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">All Categories</h2>
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">+ Add New Category</a>
     </div>
 
     <table>

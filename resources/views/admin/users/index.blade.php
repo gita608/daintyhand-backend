@@ -7,24 +7,24 @@
 @include('admin.partials.tables')
 
 @section('content')
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Registered</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($users as $user)
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->phone ?? 'N/A' }}</td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Registered</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($users as $user)
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone ?? 'N/A' }}</td>
                     <td>{{ $user->created_at->format('M d, Y') }}</td>
                     <td>
                         <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-edit btn-sm">View</a>
@@ -34,17 +34,17 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-delete btn-sm">Delete</button>
                         </form>
-                    </td>
-                </tr>
-            @empty
+                        </td>
+                    </tr>
+                @empty
                 <tr>
                     <td colspan="6" style="text-align: center; padding: 30px;">No users found</td>
                 </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @endforelse
+            </tbody>
+        </table>
     
-    <div style="margin-top: 20px;">
-        {{ $users->links() }}
+        <div style="margin-top: 20px;">
+            {{ $users->links() }}
     </div>
 @endsection

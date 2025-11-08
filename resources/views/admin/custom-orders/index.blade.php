@@ -8,27 +8,27 @@
 @include('admin.partials.tables')
 
 @section('content')
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Product Type</th>
-                <th>Budget</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($customOrders as $order)
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->name }}</td>
-                    <td>{{ $order->email }}</td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Product Type</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($customOrders as $order)
+                    <tr>
+                        <td>{{ $order->id }}</td>
+                        <td>{{ $order->name }}</td>
+                        <td>{{ $order->email }}</td>
                     <td>{{ ucfirst(str_replace('-', ' ', $order->product_type)) }}</td>
-                    <td>{{ $order->budget }}</td>
+                        <td>{{ $order->budget }}</td>
                     <td>
                         @php
                             $statusClass = match($order->status) {
@@ -41,20 +41,20 @@
                         @endphp
                         <span class="badge {{ $statusClass }}">{{ ucfirst(str_replace('_', ' ', $order->status)) }}</span>
                     </td>
-                    <td>{{ $order->created_at->format('M d, Y') }}</td>
+                        <td>{{ $order->created_at->format('M d, Y') }}</td>
                     <td>
                         <a href="{{ route('admin.custom-orders.show', $order->id) }}" class="btn btn-edit btn-sm">View</a>
                     </td>
-                </tr>
-            @empty
+                    </tr>
+                @empty
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 30px;">No custom orders found</td>
                 </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @endforelse
+            </tbody>
+        </table>
     
-    <div style="margin-top: 20px;">
-        {{ $customOrders->links() }}
+        <div style="margin-top: 20px;">
+            {{ $customOrders->links() }}
     </div>
 @endsection
