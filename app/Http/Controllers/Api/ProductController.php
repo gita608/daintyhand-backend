@@ -50,20 +50,22 @@ class ProductController extends Controller
 
     public function categories()
     {
-        $categories = [
-            'All',
-            'Invitations',
-            'Wall Art',
-            'Paper Crafts',
-            'Albums',
-            'Cards',
-            'Decorations',
-            'Journals',
-            'Gift Wrap',
-            'Frames'
+        $categories = \App\Models\Category::select('id', 'name', 'slug', 'image')->get();
+        
+        $formattedCategories = [
+            ['name' => 'All', 'slug' => 'all', 'image' => null]
         ];
+        
+        foreach ($categories as $category) {
+            $formattedCategories[] = [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'image' => $category->image,
+            ];
+        }
 
-        return $this->successResponse($categories);
+        return $this->successResponse($formattedCategories);
     }
 
     private function formatProduct($product)

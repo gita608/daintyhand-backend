@@ -39,6 +39,15 @@
                     <label>Description</label>
                     <input type="text" name="description" value="{{ $category->description ?? '' }}">
                 </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" name="image" value="{{ $category->image ?? '' }}" placeholder="https://example.com/image.jpg">
+                    @if($category->image)
+                        <div style="margin-top: 10px;">
+                            <img src="{{ $category->image }}" alt="{{ $category->name }}" style="max-width: 200px; max-height: 200px; border-radius: 5px; margin-top: 10px;">
+                        </div>
+                    @endif
+                </div>
                 <button type="submit" class="btn">Update Category</button>
             </form>
         </div>

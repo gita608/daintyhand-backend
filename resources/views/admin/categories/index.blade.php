@@ -50,6 +50,10 @@
                     <label>Description</label>
                     <input type="text" name="description">
                 </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" name="image" placeholder="https://example.com/image.jpg">
+                </div>
                 <button type="submit" class="btn">Create Category</button>
             </form>
         </div>
@@ -58,6 +62,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Slug</th>
                     <th>Description</th>
@@ -68,6 +73,13 @@
                 @forelse($categories as $category)
                     <tr>
                         <td>{{ $category->id }}</td>
+                        <td>
+                            @if($category->image)
+                                <img src="{{ $category->image }}" alt="{{ $category->name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                            @else
+                                <span style="color: #999;">No image</span>
+                            @endif
+                        </td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->slug }}</td>
                         <td>{{ $category->description ?? 'N/A' }}</td>
@@ -81,7 +93,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" style="text-align: center; padding: 30px;">No categories found</td></tr>
+                    <tr><td colspan="6" style="text-align: center; padding: 30px;">No categories found</td></tr>
                 @endforelse
             </tbody>
         </table>
