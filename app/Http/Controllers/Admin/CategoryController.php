@@ -16,7 +16,8 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::all();
+        $perPage = $request->get('per_page', 15);
+        $categories = Category::orderBy('created_at', 'desc')->paginate($perPage);
         
         if ($request->expectsJson()) {
             return $this->successResponse($categories);

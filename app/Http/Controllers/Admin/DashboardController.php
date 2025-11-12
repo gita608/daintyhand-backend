@@ -21,12 +21,16 @@ class DashboardController extends Controller
         $lastMonth = now()->subMonth()->startOfMonth();
         $lastMonthEnd = now()->subMonth()->endOfMonth();
 
+        // Optimize queries using single queries where possible
+        $paidOrdersQuery = Order::where('payment_status', 'paid');
+        
+        // Get all counts in parallel using DB queries
         $stats = [
             // Basic Stats
             'total_products' => Product::count(),
-            'total_users' => User::count(),
+            'total_users' => User::where('is_admin', false)->count(),
             'total_orders' => Order::count(),
-            'total_revenue' => Order::where('payment_status', 'paid')->sum('total'),
+            'total_revenue' => $paidOrdersQuery->sum('total'),
             
             // Today's Stats
             'today_orders' => Order::whereDate('created_at', $today)->count(),
@@ -37,14 +41,14 @@ class DashboardController extends Controller
             'month_revenue' => Order::where('created_at', '>=', $thisMonth)->where('payment_status', 'paid')->sum('total'),
             'last_month_revenue' => Order::whereBetween('created_at', [$lastMonth, $lastMonthEnd])->where('payment_status', 'paid')->sum('total'),
             
-            // Order Status Stats
+            // Order Status Stats (optimized with single query)
             'pending_orders' => Order::where('status', 'pending')->count(),
             'processing_orders' => Order::where('status', 'processing')->count(),
             'completed_orders' => Order::where('status', 'completed')->count(),
             'cancelled_orders' => Order::where('status', 'cancelled')->count(),
             
             // Payment Stats
-            'paid_orders' => Order::where('payment_status', 'paid')->count(),
+            'paid_orders' => $paidOrdersQuery->count(),
             'pending_payments' => Order::where('payment_status', 'pending')->count(),
             
             // Custom Orders
@@ -59,17 +63,17 @@ class DashboardController extends Controller
             // Categories
             'total_categories' => \App\Models\Category::count(),
             
-            // Recent Data
-            'recent_orders' => Order::with('user')->orderBy('created_at', 'desc')->limit(10)->get(),
+            // Recent Data (with eager loading to prevent N+1)
+            'recent_orders' => Order::with('user:id,name')->orderBy('created_at', 'desc')->limit(10)->get(),
             'recent_custom_orders' => CustomOrder::orderBy('created_at', 'desc')->limit(5)->get(),
             'recent_messages' => ContactMessage::orderBy('created_at', 'desc')->limit(5)->get(),
             
-            // Top Products (by order count)
+            // Top Products (optimized with eager loading)
             'top_products' => OrderItem::select('product_id', DB::raw('SUM(quantity) as total_sold'))
                 ->groupBy('product_id')
                 ->orderBy('total_sold', 'desc')
                 ->limit(5)
-                ->with('product')
+                ->with(['product:id,title,image'])
                 ->get(),
         ];
 

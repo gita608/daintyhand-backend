@@ -7,12 +7,34 @@
 @include('admin.partials.cards')
 @include('admin.partials.forms')
 
+@push('styles')
+<style>
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    @media (max-width: 768px) {
+        .form-header h2 {
+            font-size: 18px;
+        }
+        .form-header .btn {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
     <div class="form-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="form-header">
             <h2 style="margin: 0;">Create New Product</h2>
             <a href="{{ route('admin.products.index') }}" class="btn btn-primary">← Back to Products</a>
-    </div>
+        </div>
         
             <form method="POST" action="{{ route('admin.products.store') }}">
                 @csrf

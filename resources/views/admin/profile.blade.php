@@ -29,9 +29,33 @@
         gap: 20px;
     }
     
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
     @media (max-width: 768px) {
         .form-row {
             grid-template-columns: 1fr;
+        }
+        .profile-section {
+            margin-bottom: 20px;
+        }
+        .profile-section-title {
+            font-size: 16px;
+        }
+        .profile-header h2 {
+            font-size: 18px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .profile-section-title {
+            font-size: 14px;
         }
     }
 </style>

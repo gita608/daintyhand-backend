@@ -118,6 +118,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap;
         }
         
         .top-header h2 {
@@ -130,6 +131,7 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .header-actions span {
@@ -188,6 +190,7 @@
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
+                width: 280px;
             }
             
             .sidebar.open {
@@ -203,7 +206,45 @@
             }
             
             .content-area {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .top-header {
+                padding: 12px 15px;
+            }
+            
+            .top-header h2 {
+                font-size: 18px;
+            }
+            
+            .header-actions {
+                gap: 10px;
+                margin-top: 10px;
+                width: 100%;
+            }
+            
+            .header-actions span {
+                font-size: 12px;
+                display: none;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-area {
+                padding: 10px;
+            }
+            
+            .top-header h2 {
+                font-size: 16px;
+            }
+            
+            .sidebar-header h1 {
+                font-size: 18px;
             }
         }
         

@@ -44,6 +44,44 @@
         width: 150px;
         color: #333;
     }
+    
+    @media (max-width: 768px) {
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 8px;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+        
+        .info-row strong {
+            width: 120px;
+            font-size: 14px;
+        }
+        
+        .info-row {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 10px;
+        }
+        
+        .info-row strong {
+            width: 100px;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
 </style>
 @endpush
 

@@ -7,12 +7,44 @@
 @include('admin.partials.cards')
 @include('admin.partials.forms')
 
+@push('styles')
+<style>
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .category-image-preview {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+        width: 100%;
+    }
+    @media (max-width: 768px) {
+        .form-header h2 {
+            font-size: 18px;
+        }
+        .form-header .btn {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+        .category-image-preview {
+            max-width: 100%;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
     <div class="form-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="form-header">
             <h2 style="margin: 0;">Edit Category</h2>
             <a href="{{ route('admin.categories.index') }}" class="btn btn-primary">← Back to Categories</a>
-    </div>
+        </div>
         
             <form method="POST" action="{{ route('admin.categories.update', $category->id) }}">
                 @csrf
@@ -34,7 +66,7 @@
                     <input type="url" name="image" value="{{ $category->image ?? '' }}" placeholder="https://example.com/image.jpg">
                     @if($category->image)
                         <div style="margin-top: 10px;">
-                            <img src="{{ $category->image }}" alt="{{ $category->name }}" style="max-width: 200px; max-height: 200px; border-radius: 5px; margin-top: 10px;">
+                            <img src="{{ $category->image }}" alt="{{ $category->name }}" class="category-image-preview">
                         </div>
                     @endif
                 </div>

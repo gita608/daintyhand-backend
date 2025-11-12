@@ -26,7 +26,18 @@
             padding: 40px;
             width: 100%;
             max-width: 400px;
-            border-radius: 20px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            .login-header h1 {
+                font-size: 24px;
+            }
+            .form-group input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
         }
         .login-header {
             text-align: center;
