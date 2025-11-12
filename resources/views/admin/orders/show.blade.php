@@ -10,7 +10,7 @@
 @include('admin.partials.tables')
 
 @push('styles')
-<style>
+    <style>
     .order-summary {
         margin-top: 20px;
         text-align: right;
@@ -31,7 +31,7 @@
             font-size: 18px !important;
         }
     }
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -39,7 +39,7 @@
         <a href="{{ route('admin.orders.index') }}" class="btn btn-primary">← Back to Orders</a>
     </div>
 
-    <div class="card">
+        <div class="card">
         <h2 style="margin-bottom: 20px;">Order Information</h2>
         <div class="info-row"><strong>Order Number:</strong> {{ $order->order_number }}</div>
         <div class="info-row"><strong>Customer:</strong> {{ $order->user->name }} ({{ $order->user->email }})</div>
@@ -69,25 +69,25 @@
             <!-- Desktop Table View -->
             <div class="table-wrapper">
                 <table class="dashboard-table">
-                    <thead>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($order->items as $item)
                         <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
+                            <td>{{ $item->title }}</td>
+                            <td>₹{{ number_format($item->price, 2) }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>₹{{ number_format($item->price * $item->quantity, 2) }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($order->items as $item)
-                            <tr>
-                                <td>{{ $item->title }}</td>
-                                <td>₹{{ number_format($item->price, 2) }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>₹{{ number_format($item->price * $item->quantity, 2) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    @endforeach
+                </tbody>
+            </table>
             </div>
 
             <!-- Mobile Card View -->
@@ -122,7 +122,7 @@
             </div>
         </div>
 
-    <div class="card">
+        <div class="card">
         <h2 style="margin-bottom: 20px;">Shipping Address</h2>
         <div class="info-row"><strong>Name:</strong> {{ $order->shipping_name }}</div>
         <div class="info-row"><strong>Address:</strong> {{ $order->shipping_address }}</div>
@@ -133,7 +133,7 @@
             @endif
         </div>
 
-    <div class="card">
+        <div class="card">
         <h2 style="margin-bottom: 20px;">Update Order Status</h2>
             <form method="POST" action="{{ route('admin.orders.updateStatus', $order->id) }}">
                 @csrf

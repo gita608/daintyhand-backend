@@ -15,6 +15,38 @@
 @endpush
 
 @section('content')
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by name, email, subject, or message...'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'is_read',
+                'label' => 'Read Status',
+                'options' => [
+                    'all' => 'All Messages',
+                    'read' => 'Read',
+                    'unread' => 'Unread'
+                ]
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_from',
+                'label' => 'From Date'
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_to',
+                'label' => 'To Date'
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
+
     <!-- Desktop Table View -->
     <div class="table-wrapper">
         <table>

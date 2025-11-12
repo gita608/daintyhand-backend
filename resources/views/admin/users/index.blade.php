@@ -7,6 +7,27 @@
 @include('admin.partials.tables')
 
 @section('content')
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by name, email, or phone...'
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_from',
+                'label' => 'From Date'
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_to',
+                'label' => 'To Date'
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
     <!-- Desktop Table View -->
     <div class="table-wrapper">
         <table>

@@ -8,7 +8,7 @@
 @include('admin.partials.forms')
 
 @push('styles')
-<style>
+    <style>
     .product-main-image {
         max-width: 300px;
         width: 100%;
@@ -38,7 +38,7 @@
             max-width: 100%;
         }
     }
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -46,15 +46,15 @@
         <a href="{{ route('admin.products.index') }}" class="btn btn-primary">← Back to Products</a>
     </div>
 
-    <div class="card">
+        <div class="card">
         <div class="card-header">
             <h2>Product Information</h2>
             <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-edit">Edit Product</a>
         </div>
         
-        @if($product->image)
+            @if($product->image)
             <img src="{{ $product->image }}" alt="{{ $product->title }}" class="product-main-image">
-        @endif
+            @endif
         
             <div class="info-row"><strong>ID:</strong> {{ $product->id }}</div>
             <div class="info-row"><strong>Title:</strong> {{ $product->title }}</div>
@@ -70,9 +70,9 @@
             <div class="card">
                 <h2 style="margin-bottom: 20px;">Product Images</h2>
                 <div class="product-images-grid">
-                    @foreach($product->images as $image)
+                @foreach($product->images as $image)
                         <img src="{{ $image->image_url }}" alt="Product Image">
-                    @endforeach
+                @endforeach
                 </div>
             </div>
         @endif
@@ -93,14 +93,14 @@
                 <h2 style="margin-bottom: 20px;">Specifications</h2>
                 <!-- Desktop Table View -->
                 <div class="table-wrapper">
-                    <table style="width: 100%;">
-                        @foreach($product->specifications as $spec)
-                            <tr>
+                <table style="width: 100%;">
+                    @foreach($product->specifications as $spec)
+                        <tr>
                                 <td style="padding: 8px 0;"><strong>{{ $spec->key }}:</strong></td>
                                 <td style="padding: 8px 0;">{{ $spec->value }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                        </tr>
+                    @endforeach
+                </table>
                 </div>
                 
                 <!-- Mobile Card View -->

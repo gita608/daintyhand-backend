@@ -8,6 +8,40 @@
 @include('admin.partials.tables')
 
 @section('content')
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by name, email, product type, or description...'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'status',
+                'label' => 'Status',
+                'options' => [
+                    'all' => 'All Statuses',
+                    'pending' => 'Pending',
+                    'in_progress' => 'In Progress',
+                    'completed' => 'Completed',
+                    'cancelled' => 'Cancelled'
+                ]
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_from',
+                'label' => 'From Date'
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_to',
+                'label' => 'To Date'
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
+
     <!-- Desktop Table View -->
     <div class="table-wrapper">
         <table>

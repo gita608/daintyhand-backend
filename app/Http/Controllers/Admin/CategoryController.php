@@ -16,8 +16,20 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
+        $query = Category::query();
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
         $perPage = $request->get('per_page', 15);
-        $categories = Category::orderBy('created_at', 'desc')->paginate($perPage);
+        $categories = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
         
         if ($request->expectsJson()) {
             return $this->successResponse($categories);

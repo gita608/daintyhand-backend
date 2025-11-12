@@ -16,16 +16,38 @@ class OrderController extends Controller
     {
         $query = Order::with(['user', 'items']);
 
-        if ($request->has('status')) {
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%")
+                                ->orWhere('email', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Status filter
+        if ($request->filled('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
 
-        if ($request->has('payment_status')) {
+        // Payment status filter
+        if ($request->filled('payment_status') && $request->payment_status !== 'all') {
             $query->where('payment_status', $request->payment_status);
         }
 
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         $perPage = $request->get('per_page', 15);
-        $orders = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        $orders = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
 
         if ($request->expectsJson()) {
             return $this->successResponse($orders);

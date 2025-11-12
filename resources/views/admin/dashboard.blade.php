@@ -376,46 +376,46 @@
                 <!-- Desktop Table View -->
                 <div class="table-wrapper">
                     <table class="dashboard-table">
-                        <thead>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($stats['recent_orders'] as $order)
                             <tr>
-                                <th>Order #</th>
-                                <th>Customer</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Payment</th>
-                                <th>Date</th>
+                                <td><a href="{{ route('admin.orders.show', $order->id) }}">{{ $order->order_number }}</a></td>
+                                <td>{{ $order->user->name ?? 'Guest' }}</td>
+                                <td><strong>₹{{ number_format($order->total, 2) }}</strong></td>
+                                <td>
+                                    @php
+                                        $statusClass = match($order->status) {
+                                            'pending' => 'badge-pending',
+                                            'processing' => 'badge-processing',
+                                            'completed' => 'badge-completed',
+                                            'cancelled' => 'badge-cancelled',
+                                            default => 'badge-pending'
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $statusClass }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge {{ $order->payment_status === 'paid' ? 'badge-paid' : 'badge-unpaid' }}">
+                                        {{ ucfirst($order->payment_status) }}
+                                    </span>
+                                </td>
+                                <td>{{ $order->created_at->format('M d, Y') }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($stats['recent_orders'] as $order)
-                                <tr>
-                                    <td><a href="{{ route('admin.orders.show', $order->id) }}">{{ $order->order_number }}</a></td>
-                                    <td>{{ $order->user->name ?? 'Guest' }}</td>
-                                    <td><strong>₹{{ number_format($order->total, 2) }}</strong></td>
-                                    <td>
-                                        @php
-                                            $statusClass = match($order->status) {
-                                                'pending' => 'badge-pending',
-                                                'processing' => 'badge-processing',
-                                                'completed' => 'badge-completed',
-                                                'cancelled' => 'badge-cancelled',
-                                                default => 'badge-pending'
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $statusClass }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge {{ $order->payment_status === 'paid' ? 'badge-paid' : 'badge-unpaid' }}">
-                                            {{ ucfirst($order->payment_status) }}
-                                        </span>
-                                    </td>
-                                    <td>{{ $order->created_at->format('M d, Y') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </tbody>
+                </table>
                 </div>
 
                 <!-- Mobile Card View -->
@@ -542,38 +542,38 @@
                 <!-- Desktop Table View -->
                 <div class="table-wrapper">
                     <table class="dashboard-table">
-                        <thead>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Product Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($stats['recent_custom_orders'] as $customOrder)
                             <tr>
-                                <th>Name</th>
-                                <th>Product Type</th>
-                                <th>Status</th>
-                                <th>Date</th>
+                                <td><a href="{{ route('admin.custom-orders.show', $customOrder->id) }}">{{ $customOrder->name }}</a></td>
+                                <td>{{ ucfirst(str_replace('-', ' ', $customOrder->product_type)) }}</td>
+                                <td>
+                                    @php
+                                        $customStatusClass = match($customOrder->status) {
+                                            'pending' => 'badge-pending',
+                                            'in_progress' => 'badge-processing',
+                                            'completed' => 'badge-completed',
+                                            'cancelled' => 'badge-cancelled',
+                                            default => 'badge-pending'
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $customStatusClass }}">
+                                        {{ ucfirst(str_replace('_', ' ', $customOrder->status)) }}
+                                    </span>
+                                </td>
+                                <td>{{ $customOrder->created_at->format('M d, Y') }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($stats['recent_custom_orders'] as $customOrder)
-                                <tr>
-                                    <td><a href="{{ route('admin.custom-orders.show', $customOrder->id) }}">{{ $customOrder->name }}</a></td>
-                                    <td>{{ ucfirst(str_replace('-', ' ', $customOrder->product_type)) }}</td>
-                                    <td>
-                                        @php
-                                            $customStatusClass = match($customOrder->status) {
-                                                'pending' => 'badge-pending',
-                                                'in_progress' => 'badge-processing',
-                                                'completed' => 'badge-completed',
-                                                'cancelled' => 'badge-cancelled',
-                                                default => 'badge-pending'
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $customStatusClass }}">
-                                            {{ ucfirst(str_replace('_', ' ', $customOrder->status)) }}
-                                        </span>
-                                    </td>
-                                    <td>{{ $customOrder->created_at->format('M d, Y') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </tbody>
+                </table>
                 </div>
 
                 <!-- Mobile Card View -->

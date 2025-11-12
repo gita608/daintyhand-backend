@@ -8,7 +8,7 @@
 @include('admin.partials.forms')
 
 @push('styles')
-<style>
+    <style>
     .form-header {
         display: flex;
         justify-content: space-between;
@@ -36,7 +36,7 @@
             max-width: 100%;
         }
     }
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -44,7 +44,7 @@
         <div class="form-header">
             <h2 style="margin: 0;">Edit Category</h2>
             <a href="{{ route('admin.categories.index') }}" class="btn btn-primary">← Back to Categories</a>
-        </div>
+    </div>
         
             <form method="POST" action="{{ route('admin.categories.update', $category->id) }}">
                 @csrf

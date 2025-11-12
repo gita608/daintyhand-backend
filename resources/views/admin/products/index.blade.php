@@ -23,12 +23,30 @@
         border-radius: 5px;
     }
     @media (max-width: 768px) {
+        .page-header {
+            margin-bottom: 15px;
+        }
         .page-header h2 {
             font-size: 18px;
         }
         .page-header .btn {
             font-size: 12px;
             padding: 6px 12px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+        .page-header h2 {
+            font-size: 16px;
+        }
+        .page-header .btn {
+            width: 100%;
+            text-align: center;
         }
     }
 </style>
@@ -39,6 +57,34 @@
         <h2 style="margin: 0;">All Products</h2>
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary">+ Add New Product</a>
     </div>
+
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by title, description, or category...'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'category',
+                'label' => 'Category',
+                'options' => array_merge(['all' => 'All Categories'], $categories->mapWithKeys(fn($cat) => [$cat => $cat])->toArray())
+            ],
+            [
+                'type' => 'select',
+                'name' => 'stock_status',
+                'label' => 'Stock Status',
+                'options' => [
+                    'all' => 'All',
+                    'in_stock' => 'In Stock',
+                    'out_of_stock' => 'Out of Stock'
+                ]
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
 
     <!-- Desktop Table View -->
     <div class="table-wrapper">

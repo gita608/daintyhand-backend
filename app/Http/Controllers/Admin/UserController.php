@@ -14,8 +14,28 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $query = User::where('is_admin', false);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         $perPage = $request->get('per_page', 15);
-        $users = User::where('is_admin', false)->paginate($perPage);
+        $users = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
 
         if ($request->expectsJson()) {
             return $this->successResponse($users);

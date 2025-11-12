@@ -8,7 +8,7 @@
 @include('admin.partials.forms')
 
 @push('styles')
-<style>
+    <style>
     .form-header {
         display: flex;
         justify-content: space-between;
@@ -26,7 +26,7 @@
             padding: 6px 12px;
         }
     }
-</style>
+    </style>
 @endpush
 
 @section('content')
@@ -34,7 +34,7 @@
         <div class="form-header">
             <h2 style="margin: 0;">Create New Product</h2>
             <a href="{{ route('admin.products.index') }}" class="btn btn-primary">← Back to Products</a>
-        </div>
+    </div>
         
             <form method="POST" action="{{ route('admin.products.store') }}">
                 @csrf

@@ -18,15 +18,43 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+        $query = Product::with(['images', 'features', 'specifications']);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Stock filter
+        if ($request->filled('stock_status')) {
+            if ($request->stock_status === 'in_stock') {
+                $query->where('in_stock', true);
+            } elseif ($request->stock_status === 'out_of_stock') {
+                $query->where('in_stock', false);
+            }
+        }
+
         $perPage = $request->get('per_page', 15);
-        $products = Product::with(['images', 'features', 'specifications'])
-            ->paginate($perPage);
+        $products = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
 
         if ($request->expectsJson()) {
             return $this->successResponse($products);
         }
 
-        return view('admin.products.index', compact('products'));
+        // Get unique categories for filter dropdown
+        $categories = Product::distinct()->pluck('category')->filter()->sort()->values();
+
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function create()

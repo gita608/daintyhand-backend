@@ -17,12 +17,30 @@
         gap: 10px;
     }
     @media (max-width: 768px) {
+        .page-header {
+            margin-bottom: 15px;
+        }
         .page-header h2 {
             font-size: 18px;
         }
         .page-header .btn {
             font-size: 12px;
             padding: 6px 12px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+        .page-header h2 {
+            font-size: 16px;
+        }
+        .page-header .btn {
+            width: 100%;
+            text-align: center;
         }
     }
 </style>
@@ -33,6 +51,18 @@
         <h2 style="margin: 0;">All Categories</h2>
         <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">+ Add New Category</a>
     </div>
+
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by name, slug, or description...'
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
 
     <!-- Desktop Table View -->
     <div class="table-wrapper">

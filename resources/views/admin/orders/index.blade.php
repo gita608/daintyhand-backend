@@ -18,14 +18,71 @@
         gap: 10px;
     }
     @media (max-width: 768px) {
+        .page-header {
+            margin-bottom: 15px;
+        }
         .page-header h2 {
             font-size: 18px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .page-header h2 {
+            font-size: 16px;
         }
     }
 </style>
 @endpush
 
 @section('content')
+    @php
+        $filterFields = [
+            [
+                'type' => 'search',
+                'name' => 'search',
+                'label' => 'Search',
+                'placeholder' => 'Search by order number, customer name or email...'
+            ],
+            [
+                'type' => 'select',
+                'name' => 'status',
+                'label' => 'Order Status',
+                'options' => [
+                    'all' => 'All Statuses',
+                    'pending' => 'Pending',
+                    'processing' => 'Processing',
+                    'shipped' => 'Shipped',
+                    'delivered' => 'Delivered',
+                    'completed' => 'Completed',
+                    'cancelled' => 'Cancelled'
+                ]
+            ],
+            [
+                'type' => 'select',
+                'name' => 'payment_status',
+                'label' => 'Payment Status',
+                'options' => [
+                    'all' => 'All Payment Statuses',
+                    'pending' => 'Pending',
+                    'paid' => 'Paid',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded'
+                ]
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_from',
+                'label' => 'From Date'
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_to',
+                'label' => 'To Date'
+            ]
+        ];
+    @endphp
+    @include('admin.partials.filters')
+
     <!-- Desktop Table View -->
     <div class="table-wrapper">
         <table>

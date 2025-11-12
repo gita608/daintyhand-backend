@@ -15,12 +15,32 @@ class CustomOrderController extends Controller
     {
         $query = CustomOrder::query();
 
-        if ($request->has('status')) {
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('product_type', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Status filter
+        if ($request->filled('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
 
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         $perPage = $request->get('per_page', 15);
-        $customOrders = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        $customOrders = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
 
         if ($request->expectsJson()) {
             return $this->successResponse($customOrders);
