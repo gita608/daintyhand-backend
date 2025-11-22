@@ -53,13 +53,8 @@
         background: #f1f5f9;
     }
 
-    /* Action Buttons */
-    .btn-sm {
-        padding: 6px 12px;
-        font-size: 12px;
-        border-radius: 6px;
-    }
-
+    /* Action Buttons - Inherits from buttons.blade.php */
+    
     /* Mobile Card View */
     .table-mobile-card {
         display: none;
@@ -108,15 +103,17 @@
         }
 
         .mobile-card-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 12px;
             margin-top: 16px;
             padding-top: 16px;
             border-top: 1px solid var(--border-color);
         }
-
+        
+        /* Override width: 100% from buttons.blade.php for grid items */
         .mobile-card-actions .btn {
-            flex: 1;
+            width: auto; 
             justify-content: center;
         }
     }

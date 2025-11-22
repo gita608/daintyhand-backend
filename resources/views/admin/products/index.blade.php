@@ -161,10 +161,10 @@
                 <div class="mobile-card-actions">
                     <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-edit btn-sm">View</a>
                     <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-edit btn-sm">Edit</a>
-                    <form method="POST" action="{{ route('admin.products.destroy', $product->id) }}" style="display: inline; flex: 1;">
+                    <form method="POST" action="{{ route('admin.products.destroy', $product->id) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete btn-sm" onclick="return confirm('Are you sure?')" style="width: 100%;">Delete</button>
+                        <button type="submit" class="btn btn-delete btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
                 </div>
             </div>

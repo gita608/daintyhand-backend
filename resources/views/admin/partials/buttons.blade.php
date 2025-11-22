@@ -2,83 +2,104 @@
 @push('styles')
 <style>
     .btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
+        padding: 10px 20px;
+        border: 1px solid transparent;
+        border-radius: 10px;
         cursor: pointer;
         text-decoration: none;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         font-size: 14px;
-        transition: all 0.3s;
-        font-weight: 500;
+        font-weight: 600;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing: 0.01em;
+        box-shadow: var(--shadow-sm);
     }
     
+    .btn:active {
+        transform: scale(0.98);
+    }
+    
+    /* Primary Button */
     .btn-primary {
-        background: #667eea;
+        background: var(--primary);
         color: white;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
     }
     
     .btn-primary:hover {
-        background: #5568d3;
+        background: var(--primary-hover);
+        box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -2px rgba(79, 70, 229, 0.15);
+        transform: translateY(-1px);
     }
     
+    /* Edit Button (Secondary) */
     .btn-edit {
-        background: #667eea;
-        color: white;
+        background: white;
+        color: var(--text-main);
+        border-color: var(--border-color);
+        box-shadow: var(--shadow-sm);
     }
     
     .btn-edit:hover {
-        background: #5568d3;
+        background: #f8fafc;
+        border-color: #cbd5e1;
+        color: var(--primary);
     }
     
+    .dark .btn-edit {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-main);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .dark .btn-edit:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Delete Button (Danger) */
     .btn-delete {
-        background: #dc3545;
-        color: white;
-        border: none;
-        cursor: pointer;
+        background: #fef2f2;
+        color: var(--danger);
+        border: 1px solid #fecaca;
     }
     
     .btn-delete:hover {
-        background: #c82333;
+        background: #fee2e2;
+        border-color: #fca5a5;
+        color: #b91c1c;
     }
     
+    .dark .btn-delete {
+        background: rgba(239, 68, 68, 0.1);
+        color: #fca5a5;
+        border-color: rgba(239, 68, 68, 0.2);
+    }
+    
+    .dark .btn-delete:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fecaca;
+    }
+    
+    /* Small Button */
     .btn-sm {
-        padding: 5px 10px;
+        padding: 6px 12px;
         font-size: 12px;
+        border-radius: 8px;
     }
     
     @media (max-width: 768px) {
         .btn {
-            padding: 10px 16px;
-            font-size: 14px;
-            min-height: 44px;
-            min-width: 44px;
+            width: 100%;
+            padding: 12px;
         }
         
         .btn-sm {
             padding: 8px 12px;
-            font-size: 13px;
-            min-height: 40px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .btn {
-            padding: 12px 16px;
-            font-size: 14px;
-            width: 100%;
-            justify-content: center;
-        }
-        
-        .btn-sm {
-            padding: 10px 14px;
-            font-size: 13px;
-            min-height: 42px;
-        }
-        
-        .mobile-card-actions .btn {
-            flex: 1;
-            min-width: 0;
+            width: auto;
         }
     }
 </style>
