@@ -281,6 +281,58 @@
             padding: 8px;
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: calc(60px + env(safe-area-inset-bottom));
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom);
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.05);
+        }
+
+        .dark .bottom-nav {
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .bottom-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+        }
+
+        .bottom-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 500;
+            gap: 4px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .bottom-nav-link svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2px;
+        }
+
+        .bottom-nav-link.active {
+            color: var(--primary);
+        }
+
         /* Overlay */
         .sidebar-overlay {
             display: none;
@@ -325,9 +377,10 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .content-area {
                 padding: 20px;
+                padding-bottom: calc(80px + env(safe-area-inset-bottom)); /* Space for bottom nav */
             }
 
             .user-info {
@@ -336,6 +389,16 @@
             
             .header-title h1 {
                 font-size: 18px;
+            }
+            
+            /* Hide top menu toggle on mobile since we have bottom nav */
+            .menu-toggle {
+                display: none;
+            }
+
+            /* Show bottom nav */
+            .bottom-nav {
+                display: block;
             }
             
             /* Prevent input zoom */
@@ -460,6 +523,32 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- Bottom Navigation (Mobile Only) -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-items">
+            <a href="{{ route('admin.dashboard') }}" class="bottom-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>Home</span>
+            </a>
+            <a href="{{ route('admin.products.index') }}" class="bottom-nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span>Products</span>
+            </a>
+            <a href="{{ route('admin.orders.index') }}" class="bottom-nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <span>Orders</span>
+            </a>
+            <a href="{{ route('admin.contact-messages.index') }}" class="bottom-nav-link {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>Messages</span>
+            </a>
+            <button class="bottom-nav-link" onclick="toggleSidebar()" style="background: none; border: none; cursor: pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <span>Menu</span>
+            </button>
+        </div>
+    </nav>
 
     <script>
         function toggleSidebar() {
