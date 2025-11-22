@@ -17,13 +17,62 @@
         flex-wrap: wrap;
         gap: 10px;
     }
+    
+    .image-preview-container {
+        margin-top: 10px;
+    }
+    
+    .image-preview-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 2px solid #e5e7eb;
+    }
+    
     @media (max-width: 768px) {
+        .form-header {
+            margin-bottom: 16px;
+        }
+        
         .form-header h2 {
             font-size: 18px;
         }
+        
         .form-header .btn {
-            font-size: 12px;
-            padding: 6px 12px;
+            font-size: 14px;
+            padding: 10px 16px;
+            min-height: 44px;
+        }
+        
+        .image-preview-container {
+            margin-top: 12px;
+        }
+        
+        .image-preview-container img {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .form-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        
+        .form-header h2 {
+            font-size: 16px;
+        }
+        
+        .form-header .btn {
+            width: 100%;
+            padding: 12px;
+        }
+        
+        .image-preview-container img {
+            max-width: 100%;
         }
     }
     </style>
@@ -36,7 +85,7 @@
             <a href="{{ route('admin.products.index') }}" class="btn btn-primary">← Back to Products</a>
     </div>
         
-            <form method="POST" action="{{ route('admin.products.update', $product->id) }}">
+            <form method="POST" action="{{ route('admin.products.update', $product->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -52,8 +101,21 @@
                     <input type="number" name="price" step="0.01" value="{{ $product->price }}" required>
                 </div>
                 <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="text" name="image" value="{{ $product->image }}">
+                    <label>Product Image</label>
+                    @if($product->image)
+                        <div class="image-preview-container" style="margin-bottom: 12px;">
+                            <img src="{{ $product->image }}" alt="Current Image">
+                        </div>
+                    @endif
+                    <input type="file" name="image_file" accept="image/*" onchange="previewImage(this, 'product-preview')">
+                    <small style="display: block; margin-top: 8px; color: #6b7280; font-size: 12px;">Upload a new image file (JPG, PNG, GIF, WebP - Max 2MB)</small>
+                    <div id="product-preview" class="image-preview-container" style="display: none;">
+                        <img id="product-preview-img" src="" alt="Preview">
+                    </div>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;">
+                        <label style="font-size: 12px; color: #6b7280;">OR Enter Image URL</label>
+                        <input type="text" name="image" value="{{ $product->image }}" placeholder="https://example.com/image.jpg" style="margin-top: 5px;">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Category</label>
@@ -87,4 +149,24 @@
             <button type="submit" class="btn btn-primary">Update Product</button>
             </form>
     </div>
+
+    <script>
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const previewImg = document.getElementById(previewId + '-img');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+    </script>
 @endsection

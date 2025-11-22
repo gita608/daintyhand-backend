@@ -98,10 +98,29 @@
     }
     
     @media (max-width: 480px) {
+        .pagination-wrapper {
+            padding: 12px 0;
+        }
+        
+        .pagination-info {
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+        
+        .pagination-links {
+            width: 100%;
+            justify-content: center;
+        }
+        
         .pagination-links a,
         .pagination-links span {
-            padding: 5px 8px;
-            font-size: 11px;
+            padding: 8px 10px;
+            font-size: 12px;
+            min-width: 40px;
+            min-height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 </style>

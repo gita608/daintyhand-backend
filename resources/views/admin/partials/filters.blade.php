@@ -1,11 +1,12 @@
 @push('styles')
 <style>
     .filters-container {
-        background: white;
+        background: var(--bg-surface);
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
     }
     
     .filters-header {
@@ -20,23 +21,23 @@
     .filters-header h3 {
         margin: 0;
         font-size: 16px;
-        color: #374151;
+        color: var(--text-main);
         font-weight: 600;
     }
     
     .filters-toggle {
-        background: #f3f4f6;
-        border: 1px solid #e5e7eb;
+        background: var(--bg-body);
+        border: 1px solid var(--border-color);
         padding: 6px 12px;
         border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
-        color: #374151;
+        color: var(--text-main);
         transition: all 0.2s;
     }
     
     .filters-toggle:hover {
-        background: #e5e7eb;
+        background: var(--border-color);
     }
     
     .filters-form {
@@ -59,7 +60,7 @@
     .filter-group label {
         font-size: 12px;
         font-weight: 600;
-        color: #6b7280;
+        color: var(--text-muted);
         margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -68,11 +69,11 @@
     .filter-group input,
     .filter-group select {
         padding: 8px 12px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-color);
         border-radius: 6px;
         font-size: 14px;
-        color: #374151;
-        background: white;
+        color: var(--text-main);
+        background: var(--bg-surface);
         transition: border-color 0.2s;
         width: 100%;
         box-sizing: border-box;
@@ -81,8 +82,8 @@
     .filter-group input:focus,
     .filter-group select:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
     }
     
     .filter-actions {
@@ -102,22 +103,22 @@
     }
     
     .btn-filter-apply {
-        background: #667eea;
+        background: var(--primary);
         color: white;
     }
     
     .btn-filter-apply:hover {
-        background: #5568d3;
+        background: var(--primary-hover);
     }
     
     .btn-filter-reset {
-        background: #f3f4f6;
-        color: #374151;
-        border: 1px solid #e5e7eb;
+        background: var(--bg-body);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
     }
     
     .btn-filter-reset:hover {
-        background: #e5e7eb;
+        background: var(--border-color);
     }
     
     @media (max-width: 768px) {
@@ -178,22 +179,52 @@
     
     @media (max-width: 480px) {
         .filters-container {
-            padding: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .filters-header {
+            margin-bottom: 10px;
         }
         
         .filters-header h3 {
-            font-size: 13px;
+            font-size: 14px;
+        }
+        
+        .filters-toggle {
+            padding: 8px 12px;
+            font-size: 12px;
+            min-height: 40px;
+        }
+        
+        .filters-form {
+            gap: 14px;
+        }
+        
+        .filter-group {
+            margin-bottom: 0;
+        }
+        
+        .filter-group label {
+            font-size: 11px;
+            margin-bottom: 8px;
         }
         
         .filter-group input,
         .filter-group select {
-            padding: 8px;
+            padding: 12px;
             font-size: 16px;
+            min-height: 48px;
+        }
+        
+        .filter-actions {
+            margin-top: 8px;
         }
         
         .btn-filter {
-            padding: 8px;
-            font-size: 13px;
+            padding: 12px 16px;
+            font-size: 14px;
+            min-height: 48px;
         }
     }
 </style>

@@ -2,11 +2,12 @@
 @push('styles')
 <style>
     .card {
-        background: white;
+        background: var(--bg-surface);
         padding: 25px;
         border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        box-shadow: var(--shadow-sm);
         margin-bottom: 20px;
+        border: 1px solid var(--border-color);
     }
     
     .card-header {
@@ -15,57 +16,86 @@
         align-items: center;
         margin-bottom: 20px;
         padding-bottom: 15px;
-        border-bottom: 2px solid #f3f4f6;
+        border-bottom: 2px solid var(--border-color);
     }
     
     .card-header h2 {
         font-size: 20px;
         font-weight: 600;
-        color: #111827;
+        color: var(--text-main);
         margin: 0;
     }
     
     .form-card {
-        background: white;
+        background: var(--bg-surface);
         padding: 25px;
         border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-sm);
         margin-bottom: 20px;
+        border: 1px solid var(--border-color);
     }
     
     @media (max-width: 768px) {
         .card {
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 10px;
         }
         
         .form-card {
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 10px;
         }
         
         .card-header {
             flex-direction: column;
             align-items: flex-start;
-            gap: 15px;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
         }
         
         .card-header h2 {
             font-size: 18px;
+            line-height: 1.4;
+        }
+        
+        .card-header a {
+            font-size: 14px;
+            padding: 8px 14px;
+            min-height: 40px;
         }
     }
     
     @media (max-width: 480px) {
         .card {
-            padding: 15px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
         }
         
         .form-card {
-            padding: 15px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        
+        .card-header {
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
         }
         
         .card-header h2 {
             font-size: 16px;
+        }
+        
+        .card-header a {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            min-height: 44px;
         }
     }
 </style>

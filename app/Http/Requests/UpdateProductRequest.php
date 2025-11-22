@@ -26,6 +26,7 @@ class UpdateProductRequest extends FormRequest
             'description' => ['sometimes', 'required', 'string'],
             'price' => ['sometimes', 'required', 'numeric', 'min:0'],
             'image' => ['nullable', 'string', 'max:500'],
+            'image_file' => ['nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:2048'],
             'category' => ['sometimes', 'required', 'string', 'max:100'],
             'rating' => ['nullable', 'integer', 'min:0', 'max:5'],
             'reviews_count' => ['nullable', 'integer', 'min:0'],

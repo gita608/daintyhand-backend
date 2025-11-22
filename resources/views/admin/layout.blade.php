@@ -2,267 +2,348 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>@yield('title', 'Admin Panel') - DaintyHand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Check for saved theme preference or use system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
     <style>
+        :root {
+            /* Colors */
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --bg-body: #f3f4f6;
+            --bg-surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Spacing & Layout */
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            
+            /* Effects */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        /* Dark Mode Overrides */
+        .dark {
+            --bg-body: #0f172a;
+            --bg-surface: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --primary-light: rgba(79, 70, 229, 0.2);
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f0f2f5;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-size: 15px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        
+
         /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             height: 100vh;
-            width: 260px;
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            overflow-y: auto;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            width: var(--sidebar-width);
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            z-index: 50;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
         }
-        
+
         .sidebar-header {
-            padding: 25px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.2);
-        }
-        
-        .sidebar-header h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .sidebar-header .subtitle {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 5px;
-        }
-        
-        .sidebar-menu {
-            padding: 20px 0;
-        }
-        
-        .menu-section {
-            margin-bottom: 30px;
-        }
-        
-        .menu-section-title {
-            padding: 0 20px 10px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 600;
-        }
-        
-        .menu-item {
+            height: var(--header-height);
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.8);
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            transition: all 0.3s;
-            border-left: 3px solid transparent;
         }
-        
-        .menu-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-left-color: #667eea;
+
+        .brand-logo span {
+            color: var(--primary);
         }
-        
-        .menu-item.active {
-            background: rgba(102, 126, 234, 0.2);
-            color: white;
-            border-left-color: #667eea;
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 16px;
         }
-        
-        .menu-item-icon {
-            font-size: 18px;
-            margin-right: 12px;
-            width: 24px;
-            text-align: center;
+
+        .menu-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 0 12px;
         }
-        
-        .menu-item-text {
-            font-size: 14px;
+
+        .menu-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
             font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 4px;
         }
-        
+
+        .nav-link:hover {
+            background: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        .nav-link.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
         /* Main Content */
-        .main-content {
-            margin-left: 260px;
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
             min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
-        
+
         /* Top Header */
         .top-header {
-            background: white;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
-            z-index: 100;
-            flex-wrap: wrap;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            padding-left: max(32px, env(safe-area-inset-left));
+            padding-right: max(32px, env(safe-area-inset-right));
         }
-        
-        .top-header h2 {
+
+        .dark .top-header {
+            background: rgba(30, 41, 59, 0.8); /* Dark glassmorphism */
+        }
+
+        .header-title h1 {
             font-size: 20px;
             font-weight: 600;
-            color: #111827;
+            color: var(--text-main);
         }
-        
+
         .header-actions {
             display: flex;
-            gap: 15px;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 20px;
         }
-        
-        .header-actions span {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .btn {
-            padding: 8px 16px;
+
+        .theme-toggle {
+            background: none;
             border: none;
-            border-radius: 6px;
+            color: var(--text-muted);
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
             font-size: 14px;
-            transition: all 0.3s;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-main);
+            display: block;
         }
-        
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
         .btn-logout {
-            background: #ef4444;
-            color: white;
+            padding: 8px 16px;
+            background: var(--bg-body);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        
+
         .btn-logout:hover {
-            background: #dc2626;
+            background: #ffe4e6;
+            color: var(--danger);
+            border-color: #fecdd3;
         }
-        
-        .btn-primary {
-            background: #667eea;
-            color: white;
+
+        .dark .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
         }
-        
-        .btn-primary:hover {
-            background: #5568d3;
-        }
-        
+
         /* Content Area */
         .content-area {
-            padding: 30px;
+            padding: 32px;
+            padding-left: max(32px, env(safe-area-inset-left));
+            padding-right: max(32px, env(safe-area-inset-right));
+            padding-bottom: max(32px, env(safe-area-inset-bottom));
         }
-        
-        /* Mobile Menu Toggle */
+
+        /* Mobile Toggle */
         .menu-toggle {
             display: none;
-            background: #667eea;
-            color: white;
+            background: none;
             border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            font-size: 24px;
+            color: var(--text-main);
             cursor: pointer;
-            font-size: 20px;
+            padding: 8px;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 280px;
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .menu-toggle {
-                display: block;
-            }
-            
-            .content-area {
-                padding: 15px;
-            }
-            
-            .top-header {
-                padding: 12px 15px;
-            }
-            
-            .top-header h2 {
-                font-size: 18px;
-            }
-            
-            .header-actions {
-                gap: 10px;
-                margin-top: 10px;
-                width: 100%;
-            }
-            
-            .header-actions span {
-                font-size: 12px;
-                display: none;
-            }
-            
-            .btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .content-area {
-                padding: 10px;
-            }
-            
-            .top-header h2 {
-                font-size: 16px;
-            }
-            
-            .sidebar-header h1 {
-                font-size: 18px;
-            }
-        }
-        
-        /* Overlay for mobile */
+
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 45;
+            backdrop-filter: blur(2px);
         }
-        
-        @media (max-width: 768px) {
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 16px;
+            }
+
             .sidebar-overlay.active {
                 display: block;
+            }
+            
+            .top-header {
+                padding: 0 20px;
+                justify-content: flex-start;
+            }
+
+            .header-title {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .content-area {
+                padding: 20px;
+            }
+
+            .user-info {
+                display: none;
+            }
+            
+            .header-title h1 {
+                font-size: 18px;
+            }
+            
+            /* Prevent input zoom */
+            input, select, textarea {
+                font-size: 16px !important;
+                background: var(--bg-surface);
+                color: var(--text-main);
+                border: 1px solid var(--border-color);
             }
         }
     </style>
@@ -270,109 +351,116 @@
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1>🎨 DaintyHand</h1>
-            <div class="subtitle">Admin Panel</div>
+            <a href="{{ route('admin.dashboard') }}" class="brand-logo">
+                <span>🎨</span> DaintyHand
+            </a>
         </div>
         
-        <div class="sidebar-menu">
+        <div class="sidebar-content">
             <div class="menu-section">
-                <div class="menu-section-title">Main</div>
-                <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <span class="menu-item-icon">📊</span>
-                    <span class="menu-item-text">Dashboard</span>
+                <div class="menu-label">Overview</div>
+                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
                 </a>
             </div>
-            
+
             <div class="menu-section">
-                <div class="menu-section-title">Products</div>
-                <a href="{{ route('admin.products.index') }}" class="menu-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">🛍️</span>
-                    <span class="menu-item-text">Manage Products</span>
+                <div class="menu-label">Management</div>
+                <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <span class="nav-icon">🛍️</span>
+                    Products
                 </a>
-                <a href="{{ route('admin.categories.index') }}" class="menu-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">📁</span>
-                    <span class="menu-item-text">Categories</span>
+                <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <span class="nav-icon">📁</span>
+                    Categories
+                </a>
+                <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <span class="nav-icon">👥</span>
+                    Users
                 </a>
             </div>
-            
+
             <div class="menu-section">
-                <div class="menu-section-title">Orders</div>
-                <a href="{{ route('admin.orders.index') }}" class="menu-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">📦</span>
-                    <span class="menu-item-text">View Orders</span>
+                <div class="menu-label">Orders</div>
+                <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                    <span class="nav-icon">📦</span>
+                    All Orders
                 </a>
-                <a href="{{ route('admin.custom-orders.index') }}" class="menu-item {{ request()->routeIs('admin.custom-orders.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">🎨</span>
-                    <span class="menu-item-text">Custom Orders</span>
-                </a>
-            </div>
-            
-            <div class="menu-section">
-                <div class="menu-section-title">Communication</div>
-                <a href="{{ route('admin.contact-messages.index') }}" class="menu-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">💬</span>
-                    <span class="menu-item-text">Contact Messages</span>
+                <a href="{{ route('admin.custom-orders.index') }}" class="nav-link {{ request()->routeIs('admin.custom-orders.*') ? 'active' : '' }}">
+                    <span class="nav-icon">🎨</span>
+                    Custom Requests
                 </a>
             </div>
-            
+
             <div class="menu-section">
-                <div class="menu-section-title">Users</div>
-                <a href="{{ route('admin.users.index') }}" class="menu-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <span class="menu-item-icon">👥</span>
-                    <span class="menu-item-text">Manage Users</span>
+                <div class="menu-label">Support</div>
+                <a href="{{ route('admin.contact-messages.index') }}" class="nav-link {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
+                    <span class="nav-icon">💬</span>
+                    Messages
                 </a>
-            </div>
-            
-            <div class="menu-section">
-                <div class="menu-section-title">Account</div>
-                <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
-                    <span class="menu-item-icon">👤</span>
-                    <span class="menu-item-text">My Profile</span>
+                <a href="{{ route('admin.profile') }}" class="nav-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                    <span class="nav-icon">⚙️</span>
+                    Settings
                 </a>
             </div>
         </div>
-    </div>
-    
-    <!-- Overlay for mobile -->
+    </aside>
+
+    <!-- Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-    
+
     <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top Header -->
-        <div class="top-header">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-                <h2>@yield('page-title', 'Admin Panel')</h2>
+    <div class="main-wrapper">
+        <header class="top-header">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            
+            <div class="header-title">
+                <h1>@yield('page-title', 'Dashboard')</h1>
             </div>
+
             <div class="header-actions">
-                <span>Welcome, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-logout">Logout</button>
-                </form>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <!-- Sun Icon (shown in dark mode) -->
+                    <svg class="icon-sun" style="display: none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <!-- Moon Icon (shown in light mode) -->
+                    <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+
+                <div class="user-menu">
+                    <div class="user-info">
+                        <span class="user-name">{{ Auth::user()->name }}</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <form method="POST" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <button type="submit" class="btn-logout">Sign Out</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        
-        <!-- Content Area -->
-        <div class="content-area">
+        </header>
+
+        <main class="content-area">
             @if(session('success'))
-                <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
-                    {{ session('success') }}
+                <div style="background: #ecfdf5; color: #065f46; padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #a7f3d0; display: flex; align-items: center; gap: 10px;">
+                    <span>✅</span> {{ session('success') }}
                 </div>
             @endif
             
             @if(session('error'))
-                <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545;">
-                    {{ session('error') }}
+                <div style="background: #fef2f2; color: #991b1b; padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #fecaca; display: flex; align-items: center; gap: 10px;">
+                    <span>⚠️</span> {{ session('error') }}
                 </div>
             @endif
             
             @yield('content')
-        </div>
+        </main>
     </div>
-    
+
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -380,22 +468,30 @@
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
         }
-        
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const toggle = document.querySelector('.menu-toggle');
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
             
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggle.contains(event.target) && sidebar.classList.contains('open')) {
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('active');
-                }
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
             }
-        });
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.querySelector('.icon-sun').style.display = isDark ? 'block' : 'none';
+            document.querySelector('.icon-moon').style.display = isDark ? 'none' : 'block';
+        }
+
+        // Initialize icon state
+        updateThemeIcon();
     </script>
     @stack('scripts')
 </body>
 </html>
-

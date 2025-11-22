@@ -4,171 +4,237 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - DaintyHand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-gradient-start: #f3f4f6;
+            --bg-gradient-end: #e5e7eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #d1d5db;
+            --input-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: var(--text-main);
         }
-        .login-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
+
+        .login-wrapper {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            perspective: 1000px;
         }
-        
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 30px 20px;
-            }
-            .login-header h1 {
-                font-size: 24px;
-            }
-            .form-group input {
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
+
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 48px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        .login-header {
+
+        .brand-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
-        .login-header h1 {
-            color: #333;
+
+        .brand-header h1 {
             font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
+            font-weight: 700;
+            color: #1f2937;
             margin-bottom: 8px;
-            color: #333;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-header p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
             font-weight: 500;
-            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
         }
-        .form-group input {
+
+        .form-input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            font-size: 15px;
+            color: var(--text-main);
+            transition: all 0.2s ease;
         }
-        .form-group input:focus {
+
+        .form-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
-        .error-message {
-            color: #e74c3c;
-            font-size: 13px;
-            margin-top: 5px;
+
+        .form-input::placeholder {
+            color: #9ca3af;
         }
-        .remember-me {
+
+        .checkbox-group {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .remember-me input {
-            width: auto;
+
+        .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
             margin-right: 8px;
+            cursor: pointer;
+            accent-color: var(--primary);
         }
-        .remember-me label {
-            margin: 0;
-            font-weight: normal;
+
+        .checkbox-group label {
             font-size: 14px;
-            color: #666;
+            color: #4b5563;
+            cursor: pointer;
+            user-select: none;
         }
-        .btn-login {
+
+        .btn-submit {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(79, 70, 229, 0.06);
         }
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
         }
-        .btn-login:active {
+
+        .btn-submit:active {
             transform: translateY(0);
         }
-        .info-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 4px;
+
+        .error-alert {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-        .info-box p {
-            margin: 5px 0;
+
+        .error-text {
+            color: #dc2626;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .dev-credentials {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .dev-credentials p {
             font-size: 13px;
-            color: #666;
+            color: var(--text-muted);
+            margin-bottom: 4px;
         }
-        .info-box strong {
-            color: #333;
+
+        .dev-credentials strong {
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1>Admin Login</h1>
-            <p>DaintyHand E-commerce</p>
-        </div>
-
-        @if ($errors->any())
-            <div class="error-message" style="background: #fee; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('admin.login') }}">
-            @csrf
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="brand-header">
+                <h1>Admin Portal</h1>
+                <p>Sign in to manage DaintyHand</p>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+            @if ($errors->any())
+                <div class="error-alert">
+                    @foreach ($errors->all() as $error)
+                        <span class="error-text">• {{ $error }}</span>
+                    @endforeach
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('admin.login') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" 
+                           value="{{ old('email') }}" placeholder="name@company.com" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" 
+                           placeholder="Enter your password" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Keep me signed in</label>
+                </div>
+
+                <button type="submit" class="btn-submit">Sign In</button>
+            </form>
+
+            <div class="dev-credentials">
+                <p><strong>Demo Access</strong></p>
+                <p>admin@daintyhand.com &bull; admin123</p>
             </div>
-
-            <div class="remember-me">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
-            </div>
-
-            <button type="submit" class="btn-login">Login</button>
-        </form>
-
-        <div class="info-box">
-            <p><strong>Default Admin Credentials:</strong></p>
-            <p>Email: admin@daintyhand.com</p>
-            <p>Password: admin123</p>
         </div>
     </div>
 </body>

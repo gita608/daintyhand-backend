@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -45,7 +46,15 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
+        $data = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image_file')) {
+            $imagePath = $request->file('image_file')->store('categories', 'public');
+            $data['image'] = Storage::url($imagePath);
+        }
+        
+        $category = Category::create($data);
         
         if ($request->expectsJson()) {
             return $this->successResponse($category, 'Category created successfully', 201);
@@ -63,7 +72,21 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
-        $category->update($request->validated());
+        $data = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image_file')) {
+            // Delete old image if it's a stored file
+            if ($category->image && strpos($category->image, '/storage/') !== false) {
+                $oldPath = str_replace('/storage/', '', $category->image);
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            $imagePath = $request->file('image_file')->store('categories', 'public');
+            $data['image'] = Storage::url($imagePath);
+        }
+        
+        $category->update($data);
         
         if ($request->expectsJson()) {
             return $this->successResponse($category, 'Category updated successfully');

@@ -17,10 +17,10 @@
     .profile-section-title {
         font-size: 18px;
         font-weight: 600;
-        color: #111827;
+        color: var(--text-main);
         margin-bottom: 20px;
         padding-bottom: 10px;
-        border-bottom: 2px solid #f3f4f6;
+        border-bottom: 2px solid var(--border-color);
     }
     
     .form-row {

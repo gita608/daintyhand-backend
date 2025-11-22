@@ -28,6 +28,7 @@ class UpdateCategoryRequest extends FormRequest
             'slug' => ['sometimes', 'required', 'string', 'max:100', 'unique:categories,slug,' . $categoryId],
             'description' => ['nullable', 'string'],
             'image' => ['nullable', 'string', 'url'],
+            'image_file' => ['nullable', 'image', 'mimes:jpeg,jpg,png,gif,webp', 'max:2048'],
         ];
     }
 }

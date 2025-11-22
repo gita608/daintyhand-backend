@@ -46,6 +46,41 @@
         padding: 5px 10px;
         font-size: 12px;
     }
+    
+    @media (max-width: 768px) {
+        .btn {
+            padding: 10px 16px;
+            font-size: 14px;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 13px;
+            min-height: 40px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .btn {
+            padding: 12px 16px;
+            font-size: 14px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .btn-sm {
+            padding: 10px 14px;
+            font-size: 13px;
+            min-height: 42px;
+        }
+        
+        .mobile-card-actions .btn {
+            flex: 1;
+            min-width: 0;
+        }
+    }
 </style>
 @endpush
 

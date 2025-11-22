@@ -11,6 +11,7 @@ use App\Models\ProductImage;
 use App\Models\ProductSpecification;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -64,7 +65,15 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $data = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image_file')) {
+            $imagePath = $request->file('image_file')->store('products', 'public');
+            $data['image'] = Storage::url($imagePath);
+        }
+        
+        $product = Product::create($data);
 
         // Handle images
         if ($request->has('images')) {
@@ -133,7 +142,21 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->validated());
+        $data = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image_file')) {
+            // Delete old image if it's a stored file
+            if ($product->image && strpos($product->image, '/storage/') !== false) {
+                $oldPath = str_replace('/storage/', '', $product->image);
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            $imagePath = $request->file('image_file')->store('products', 'public');
+            $data['image'] = Storage::url($imagePath);
+        }
+        
+        $product->update($data);
 
         if ($request->expectsJson()) {
             return $this->successResponse($product->load(['images', 'features', 'specifications']), 'Product updated successfully');

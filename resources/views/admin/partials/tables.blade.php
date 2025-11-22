@@ -1,123 +1,141 @@
 {{-- Reusable Table Styles --}}
 @push('styles')
 <style>
+    /* Modern Table Styles */
     .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 20px;
+        background: var(--bg-surface);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        margin-bottom: 24px;
     }
-    
+
     table {
         width: 100%;
-        background: white;
         border-collapse: collapse;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        min-width: 600px;
-    }
-    
-    th, td {
-        padding: 15px;
         text-align: left;
-        border-bottom: 1px solid #eee;
     }
-    
+
     th {
-        background: #f8f9fa;
+        background: #f8fafc;
+        padding: 12px 24px;
+        font-size: 12px;
         font-weight: 600;
-        white-space: nowrap;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--border-color);
     }
-    
-    tbody tr {
-        transition: background 0.2s;
+
+    td {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-main);
+        font-size: 14px;
+        vertical-align: middle;
     }
-    
-    tbody tr:hover {
-        background: #f9fafb;
-    }
-    
-    tbody tr:last-child td {
+
+    tr:last-child td {
         border-bottom: none;
     }
-    
-    /* Mobile Card View for Tables */
+
+    tr:hover td {
+        background: #f8fafc;
+    }
+
+    /* Images in tables */
+    td img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #f1f5f9;
+    }
+
+    /* Action Buttons */
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+
+    /* Mobile Card View */
     .table-mobile-card {
         display: none;
     }
-    
+
     @media (max-width: 768px) {
         .table-wrapper {
             display: none;
         }
-        
+
         .table-mobile-card {
             display: block;
         }
-        
+
         .mobile-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
         }
-        
+
         .mobile-card-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #f3f4f6;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         .mobile-card-row:last-child {
             border-bottom: none;
         }
-        
+
         .mobile-card-label {
+            font-size: 13px;
             font-weight: 600;
-            color: #6b7280;
-            font-size: 12px;
-            text-transform: uppercase;
-            min-width: 100px;
+            color: var(--text-muted);
         }
-        
+
         .mobile-card-value {
-            color: #111827;
+            font-size: 14px;
+            color: var(--text-main);
             text-align: right;
-            flex: 1;
         }
-        
+
         .mobile-card-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #f3f4f6;
-            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
         }
-        
+
         .mobile-card-actions .btn {
             flex: 1;
-            min-width: 80px;
-            text-align: center;
+            justify-content: center;
         }
     }
-    
+    /* Dark Mode Overrides for Tables */
+    .dark th {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dark tr:hover td {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dark td img {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
     @media (max-width: 480px) {
-        th, td {
-            padding: 10px 8px;
-            font-size: 13px;
-        }
-        
-        .mobile-card {
-            padding: 12px;
-        }
-        
-        .mobile-card-label {
-            font-size: 11px;
-            min-width: 80px;
+        .mobile-card-value {
+            word-break: break-word;
         }
     }
 </style>
